@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,10 +16,10 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'Visa Stock Data ',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(0, 30, 255, 0)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(0, 46, 210, 216)),
         ),
         debugShowCheckedModeBanner: false,
         home: MyHomePage(),
@@ -35,36 +34,21 @@ class ModelPage extends StatefulWidget {
 }
 
 class _ModelPageState extends State<ModelPage> {
-  final ageController = TextEditingController();
-  final sexController = TextEditingController();
-  final cpController = TextEditingController();
-  final trestbpsController = TextEditingController();
-  final cholController = TextEditingController();
-  final fbsController = TextEditingController();
-  final restecgController = TextEditingController();
-  final thalachController = TextEditingController();
-  final exangController = TextEditingController();
-  final oldpeakController = TextEditingController();
-  final slopeController = TextEditingController();
-  final caController = TextEditingController();
-  final thalController = TextEditingController();
+  final opneVariable = TextEditingController();
+  final highVarible = TextEditingController();
+  final lowVarible = TextEditingController();
+  final volumeVariable = TextEditingController();
+  
   String? modelResponse;
 
   @override
   void dispose() {
-    ageController.dispose();
-    sexController.dispose();
-    cpController.dispose();
-    trestbpsController.dispose();
-    cholController.dispose();
-    fbsController.dispose();
-    restecgController.dispose();
-    thalachController.dispose();
-    exangController.dispose();
-    oldpeakController.dispose();
-    slopeController.dispose();
-    caController.dispose();
-    thalController.dispose();
+    opneVariable.dispose();
+    highVarible.dispose();
+    lowVarible.dispose();
+    volumeVariable.dispose();
+    //gyroscopeYController.dispose();
+    //gyroscopeZController.dispose();
     super.dispose();
   }
 
@@ -77,135 +61,119 @@ class _ModelPageState extends State<ModelPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: ageController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Age',
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'MODEL',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: Color.fromARGB(255, 41, 161, 135),
                 ),
               ),
             ),
+            
+            
+            
+            SizedBox(height: 20),
             Container(
-              width: 300, // Establecer un ancho específico
+              width: 300,
               child: TextField(
-                controller: sexController,
+                controller: opneVariable,
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Sex (1 = Male, 0 = Female)',
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'Open',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
+            
+            
+            
+            SizedBox(height: 10),
             Container(
-              width: 300, // Establecer un ancho específico
+              width: 300,
               child: TextField(
-                controller: cpController,
+                controller: highVarible,
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Chest Pain Type (cp)',
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'high',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
+            
+            
+            
+            SizedBox(height: 10),
             Container(
-              width: 300, // Establecer un ancho específico
+              width: 300,
               child: TextField(
-                controller: trestbpsController,
+                controller: lowVarible,
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Resting Blood Pressure (trestbps)',
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'Low',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
+            
+            
+            
+            SizedBox(height: 10),
             Container(
-              width: 300, // Establecer un ancho específico
+              width: 300,
               child: TextField(
-                controller: cholController,
+                controller: volumeVariable,
                 keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'Cholesterol (chol)',
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'Volume',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: fbsController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Fasting Blood Sugar (fbs)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: restecgController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Resting ECG Results (restecg)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: thalachController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Max Heart Rate Achieved (thalach)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: exangController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Exercise Induced Angina (exang)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: oldpeakController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'ST Depression (oldpeak)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: slopeController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Slope of Peak Exercise ST Segment (slope)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: caController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Number of Major Vessels (ca)',
-                ),
-              ),
-            ),
-            Container(
-              width: 300, // Establecer un ancho específico
-              child: TextField(
-                controller: thalController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Thalassemia (thal)',
-                ),
-              ),
-            ),
+          
+            
             SizedBox(height: 20),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -214,33 +182,21 @@ class _ModelPageState extends State<ModelPage> {
                   onPressed: () {
                     appState
                         .callModel(
-                      ageController.text,
-                      sexController.text,
-                      cpController.text,
-                      trestbpsController.text,
-                      cholController.text,
-                      fbsController.text,
-                      restecgController.text,
-                      thalachController.text,
-                      exangController.text,
-                      oldpeakController.text,
-                      slopeController.text,
-                      caController.text,
-                      thalController.text,
-                    )
+                            double.parse(opneVariable.text),
+                            double.parse(highVarible.text),
+                            double.parse(lowVarible.text),
+                            double.parse(volumeVariable.text))
                         .then((value) {
                       setState(() {
                         modelResponse = value;
                       });
                     });
                   },
-                  child: Text('Predict'),
+                  child: Text('PREDICT'),
                 ),
                 if (modelResponse != null) ...[
-                  SizedBox(
-                      height:
-                          20), // Añadir un espacio entre el botón y la respuesta
-                  Text('Response: ${json.decode(modelResponse!)['score']}'),
+                  SizedBox(height: 20),
+                  Text('Response: ${modelResponse}'),
                 ]
               ],
             ),
@@ -252,43 +208,27 @@ class _ModelPageState extends State<ModelPage> {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  var history = <WordPair>[];
-  
-
   GlobalKey? historyListKey;
 
   Future<String> callModel(
-      String age,
-      String sex,
-      String cp,
-      String trestbps,
-      String chol,
-      String fbs,
-      String restecg,
-      String thalach,
-      String exang,
-      String oldpeak,
-      String slope,
-      String ca,
-      String thal) async {
-    final url = Uri.parse("https://fastapiml-latest-15yk.onrender.com/score");
+    double open,
+    double high,
+    double low,
+    double volume,
+    //double Gyroscope_y,
+    //double Gyroscope_z,
+  ) async {
+    final url =
+        Uri.parse("https://fastapiml3-latest.onrender.com/predict");
     final headers = {"Content-Type": "application/json;charset=UTF-8"};
     try {
       final prediction_instance = {
-        "age": int.parse(age),
-        "sex": int.parse(sex),
-        "cp": int.parse(cp),
-        "trestbps": int.parse(trestbps),
-        "chol": int.parse(chol),
-        "fbs": int.parse(fbs),
-        "restecg": int.parse(restecg),
-        "thalach": int.parse(thalach),
-        "exang": int.parse(exang),
-        "oldpeak": double.parse(oldpeak),
-        "slope": int.parse(slope),
-        "ca": int.parse(ca),
-        "thal": int.parse(thal)
+        "open": open,
+        "high": high,
+        "low": low,
+        "volume": volume,
+        //"Gyroscope_y": Gyroscope_y,
+        //"Gyroscope_z": Gyroscope_z
       };
       final res = await http.post(url,
           headers: headers, body: jsonEncode(prediction_instance));
@@ -302,30 +242,131 @@ class MyAppState extends ChangeNotifier {
       return 'Error: ${e.toString()}';
     }
   }
+}
 
-  void getNext() {
-    history.insert(0, current);
-    var animatedList = historyListKey?.currentState as AnimatedListState?;
-    animatedList?.insertItem(0);
-    current = WordPair.random();
-    notifyListeners();
+class Retrain extends StatefulWidget {
+  @override
+  _RetrainState createState() => _RetrainState();
+}
+
+class _RetrainState extends State<Retrain> {
+  final shaController = TextEditingController();
+  final urlController = TextEditingController();
+
+  @override
+  void dispose() {
+    shaController.dispose();
+    urlController.dispose();
+    super.dispose();
   }
 
-  var favorites = <WordPair>[];
+  Future<void> sendPostRequest(String sha, String datasetUrl) async {
+    final String url =
+        'https://api.github.com/repos/EurusTrick/tecnologias3/dispatches';
+    final String token = ''; //here should be the access token 
 
-  void toggleFavorite([WordPair? pair]) {
-    pair = pair ?? current;
-    if (favorites.contains(pair)) {
-      favorites.remove(pair);
+    final Map<String, dynamic> body = {
+      "event_type": "ml_ci_cd",
+      "client_payload": {
+        "dataseturl": datasetUrl,
+        "sha": sha,
+      },
+    };
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-type': 'application/json',
+      },
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode == 200) {
+      print('Request successful: ${response.body}');
     } else {
-      favorites.add(pair);
+      print(
+          'Request failed with status: ${response.statusCode}, ${response.body}');
     }
-    notifyListeners();
   }
 
-  void removeFavorite(WordPair pair) {
-    favorites.remove(pair);
-    notifyListeners();
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'RETRAIN',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: Color.fromARGB(255, 41, 161, 135),
+                ),
+              ),
+            ),
+            
+            
+            SizedBox(height: 20),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: shaController,
+                keyboardType: TextInputType.text,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'SHA',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: urlController,
+                keyboardType: TextInputType.url,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  fillColor: Color.fromARGB(255, 127, 226, 88),
+                  filled: true,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  hintText: 'Dataset URL',
+                  hintStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                sendPostRequest(shaController.text, urlController.text);
+              },
+              child: Text('SEND REQUEST'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -344,20 +385,15 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = GeneratorPage();
+        page = ModelPage();
         break;
       case 1:
-        page = FavoritesPage();
-        break;
-      case 2:
-        page = ModelPage();
+        page = Retrain();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
-    // The container for the current page, with its background color
-    // and subtle switching animation.
     var mainArea = ColoredBox(
       color: colorScheme.surfaceVariant,
       child: AnimatedSwitcher(
@@ -383,21 +419,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     type: BottomNavigationBarType.fixed,
                     items: [
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.favorite),
-                        label: 'Favorites',
-                      ),
-                      BottomNavigationBarItem(
                         icon: Icon(Icons.rocket),
                         label: 'Model',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(Icons.rocket_launch),
                         label: 'Retrain',
-                      )
+                      ),
                     ],
                     currentIndex: selectedIndex,
                     onTap: (value) {
@@ -417,21 +445,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     extended: constraints.maxWidth >= 600,
                     destinations: [
                       NavigationRailDestination(
-                        icon: Icon(Icons.home),
-                        label: Text('Home'),
-                      ),
-                      NavigationRailDestination(
-                        icon: Icon(Icons.favorite),
-                        label: Text('Favorites'),
-                      ),
-                      NavigationRailDestination(
                         icon: Icon(Icons.rocket),
                         label: Text('Model'),
                       ),
                       NavigationRailDestination(
                         icon: Icon(Icons.rocket_launch),
                         label: Text('Retrain'),
-                      )
+                      ),
                     ],
                     selectedIndex: selectedIndex,
                     onDestinationSelected: (value) {
@@ -445,211 +465,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             );
           }
-        },
-      ),
-    );
-  }
-}
-
-class GeneratorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 3,
-            child: HistoryListView(),
-          ),
-          SizedBox(height: 10),
-          BigCard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-            ],
-          ),
-          Spacer(flex: 2),
-        ],
-      ),
-    );
-  }
-}
-
-class BigCard extends StatelessWidget {
-  const BigCard({
-    Key? key,
-    required this.pair,
-  }) : super(key: key);
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
-
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: AnimatedSize(
-          duration: Duration(milliseconds: 200),
-          // Make sure that the compound word wraps correctly when the window
-          // is too narrow.
-          child: MergeSemantics(
-            child: Wrap(
-              children: [
-                Text(
-                  pair.first,
-                  style: style.copyWith(fontWeight: FontWeight.w200),
-                ),
-                Text(
-                  pair.second,
-                  style: style.copyWith(fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var appState = context.watch<MyAppState>();
-
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(30),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        Expanded(
-          // Make better use of wide windows with a grid.
-          child: GridView(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
-              childAspectRatio: 400 / 80,
-            ),
-            children: [
-              for (var pair in appState.favorites)
-                ListTile(
-                  leading: IconButton(
-                    icon: Icon(Icons.delete_outline, semanticLabel: 'Delete'),
-                    color: theme.colorScheme.primary,
-                    onPressed: () {
-                      appState.removeFavorite(pair);
-                    },
-                  ),
-                  title: Text(
-                    pair.asLowerCase,
-                    semanticsLabel: pair.asPascalCase,
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class HistoryListView extends StatefulWidget {
-  const HistoryListView({Key? key}) : super(key: key);
-
-  @override
-  State<HistoryListView> createState() => _HistoryListViewState();
-}
-
-class _HistoryListViewState extends State<HistoryListView> {
-  /// Needed so that [MyAppState] can tell [AnimatedList] below to animate
-  /// new items.
-  final _key = GlobalKey();
-
-  /// Used to "fade out" the history items at the top, to suggest continuation.
-  static const Gradient _maskingGradient = LinearGradient(
-    // This gradient goes from fully transparent to fully opaque black...
-    colors: [Colors.transparent, Colors.black],
-    // ... from the top (transparent) to half (0.5) of the way to the bottom.
-    stops: [0.0, 0.5],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    final appState = context.watch<MyAppState>();
-    appState.historyListKey = _key;
-
-    return ShaderMask(
-      shaderCallback: (bounds) => _maskingGradient.createShader(bounds),
-      // This blend mode takes the opacity of the shader (i.e. our gradient)
-      // and applies it to the destination (i.e. our animated list).
-      blendMode: BlendMode.dstIn,
-      child: AnimatedList(
-        key: _key,
-        reverse: true,
-        padding: EdgeInsets.only(top: 100),
-        initialItemCount: appState.history.length,
-        itemBuilder: (context, index, animation) {
-          final pair = appState.history[index];
-          return SizeTransition(
-            sizeFactor: animation,
-            child: Center(
-              child: TextButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite(pair);
-                },
-                icon: appState.favorites.contains(pair)
-                    ? Icon(Icons.favorite, size: 12)      
-                    : SizedBox(),
-                label: Text(
-                  pair.asLowerCase,
-                  semanticsLabel: pair.asPascalCase,
-                ),
-              ),
-            ),
-          );
         },
       ),
     );
