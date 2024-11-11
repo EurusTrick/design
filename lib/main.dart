@@ -1,13 +1,50 @@
+//import 'package:english_words/english_words.dart';
+import 'package:flutter/material.dart';
+
+import 'package:namer_app/logs_page.dart'; 
+import 'package:namer_app/login_page.dart'; 
+import 'package:namer_app/seguimiento_page.dart';
+
+import 'package:provider/provider.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'blog_row.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+final HttpLink httpLink = HttpLink(
+  "https://hackernews-402-2024-c0sm.onrender.com/graphql/");
+
+final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
+  GraphQLClient(
+    link: httpLink,
+    cache: GraphQLCache(),
+  ),
+);    
+
+
+const String query = """
+query   Links {
+  links{
+    url
+    description    
+  }
+}
+""";
+
+const String loginPostMutation = """
+mutation{
+  tokenAuth(username:"miguelon",password:"1234"){
+    token
+  }
+}
+""";
 
 void main() {
   runApp(MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -16,17 +53,19 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Visa Stock Data ',
+        title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(0, 46, 210, 216)),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 34, 240, 255)),
         ),
-        debugShowCheckedModeBanner: false,
         home: MyHomePage(),
       ),
     );
   }
 }
+
+
+
 
 class ModelPage extends StatefulWidget {
   @override
@@ -207,7 +246,12 @@ class _ModelPageState extends State<ModelPage> {
   }
 }
 
+
 class MyAppState extends ChangeNotifier {
+  var username = "";
+  var token = "";
+  var error = "";
+
   GlobalKey? historyListKey;
 
   Future<String> callModel(
@@ -380,6 +424,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    final AuthLink authLink = AuthLink(
+      getToken: () async{
+        print('token ${appState.token}');
+        return 'JWT ${appState.token}';
+      },
+    );
+
+    final Link httpLink = authLink.concat(HttpLink("https://mysite-df52.onrender.com/graphql/"));
+    final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
+      GraphQLClient(
+        link: httpLink,
+        cache: GraphQLCache(),
+      ),
+    );
     var colorScheme = Theme.of(context).colorScheme;
 
     Widget page;
@@ -389,6 +449,15 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       case 1:
         page = Retrain();
+        break;
+      case 2:
+        page = LogsPage();
+        break;
+      case 3:
+        page = LoginPage ();
+        break;
+      case 4:
+        page = SeguimientoPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -402,7 +471,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    return Scaffold(
+     return GraphQLProvider (
+      client: client, 
+      child : Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 450) {
@@ -426,15 +497,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(Icons.rocket_launch),
                         label: 'Retrain',
                       ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.favorite),
+                        label: 'Logs',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.add_box),
+                        label: 'SeguimientoPage',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.login_sharp),
+                        label: 'Login',
+                      ),
                     ],
                     currentIndex: selectedIndex,
                     onTap: (value) {
                       setState(() {
                         selectedIndex = value;
                       });
-                    },
-                  ),
-                )
+                    }, 
+                  ), 
+                ) 
               ],
             );
           } else {
@@ -452,6 +535,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         icon: Icon(Icons.rocket_launch),
                         label: Text('Retrain'),
                       ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.favorite),
+                        label: Text('Logs'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.add_box),
+                        label: Text('SeguimientoPage'),
+                      ),
+                      NavigationRailDestination(
+                        icon: Icon(Icons.add_box),
+                        label: Text('Login'),
+                      ),
                     ],
                     selectedIndex: selectedIndex,
                     onDestinationSelected: (value) {
@@ -467,6 +562,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
       ),
-    );
+    ));
   }
 }
+
